@@ -264,6 +264,10 @@ class MindMap {
 
   //  容器尺寸变化，调整尺寸
   resize() {
+    // fix issue #1084
+    if (this.renderer.isRendering) {
+      return
+    }
     const oldWidth = this.width
     const oldHeight = this.height
     this.getElRectInfo()

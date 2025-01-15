@@ -277,7 +277,16 @@ export default {
     },
 
     handleResize() {
-      this.mindMap.resize()
+      // fix issue #1084
+      if (this.mindMap.renderer.isRendering) {
+        const handler = () => {
+          this.mindMap.resize()
+          this.mindMap.off('node_tree_render_end', handler)
+        }
+        this.mindMap.on('node_tree_render_end', handler)
+      } else {
+        this.mindMap.resize()
+      }
     },
 
     // 显示loading
